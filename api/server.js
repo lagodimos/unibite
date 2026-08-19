@@ -7,12 +7,12 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   console.log("API request recieved.");
   res.send({ message: "OK!" });
 });
 
-app.get("/db-status", async (req, res) => {
+app.get("/api/db-status", async (req, res) => {
   console.log("API request for DB status recieved.");
 
   let conn;
