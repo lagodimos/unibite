@@ -1,0 +1,5 @@
+body {
+    /* Don't show the body until we have */
+    /* verified that the user is not logged in*/
+    visibility: hidden;
+}

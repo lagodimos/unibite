@@ -5,8 +5,8 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: unibite
-      MARIADB_USER: nodejs
-      MARIADB_PASSWORD: nodejs
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
 
     ports:
       - "3306:3306"
@@ -20,6 +20,7 @@ services:
 
     volumes:
       - ./api:/app
+      - ./data/sessions:/app/sessions
       - /app/node_modules
 
     command: sh -c "npm install && npm start"
@@ -31,6 +32,9 @@ services:
 
     environment:
       CHOKIDAR_USEPOLLING: "true"
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET}
 
   web:
     image: docker.io/library/nginx:alpine

@@ -1,2 +1,6 @@
-data/mariadb/*
+.env
+
+data/*
+!data/.gitkeep
+
 api/node_modules
