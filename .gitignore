@@ -1,6 +1,8 @@
 .env
 
-data/*
-!data/.gitkeep
+data/mariadb/*
+
+data/sessions/*
+!data/sessions/.gitkeep
 
 api/node_modules

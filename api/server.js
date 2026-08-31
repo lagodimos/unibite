@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 
 const authRoutes = require("./routes/auth");
+const userProfileRoutes = require("./routes/user-profile");
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user-profile", userProfileRoutes);
 
 app.listen(port, () => {
   console.log(`UniBite erver listening on port ${port}`);
