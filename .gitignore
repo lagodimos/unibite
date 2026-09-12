@@ -5,4 +5,7 @@ data/mariadb/*
 data/sessions/*
 !data/sessions/.gitkeep
 
+data/uploads/*
+!data/uploads/.gitkeep
+
 api/node_modules

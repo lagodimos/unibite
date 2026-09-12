@@ -1,26 +1,23 @@
-const { getDbConnection } = require('../utils/db');
+import { pool } from "../db/pool.js";
 
-exports.userProfile = async (req, res, next) => {
+export async function userProfile(req, res, next) {
     try {
-        const conn = await getDbConnection();
-        const results = await conn.query(
+        const results = await pool.query(
             'SELECT * FROM user WHERE user_id = ?',
             [req.session.user_id]
         );
 
         const userRoles = []
 
-        const adminResult = await conn.query(
+        const adminResult = await pool.query(
             "SELECT * FROM admin WHERE admin_id = ?",
             [req.session.user_id]
         );
 
-        const studentResult = await conn.query(
+        const studentResult = await pool.query(
             "SELECT * FROM student WHERE student_id = ?",
             [req.session.user_id]
         );
-
-        conn.end();
 
         if (adminResult.length === 1) {
             userRoles.push("admin");
@@ -32,15 +29,15 @@ exports.userProfile = async (req, res, next) => {
 
         let userResult = results[0];
 
+        // Don't send the password hash
+        delete userResult.password_hash;
+
         return res.json({
-            email: userResult.email,
-            firstName: userResult.first_name,
-            lastName: userResult.last_name,
-            points: studentResult?.points,
+            ...userResult,
+            points: studentResult[0]?.points,
             roles: userRoles
         });
-
     } catch (error) {
         next(error);
     }
-};
+}

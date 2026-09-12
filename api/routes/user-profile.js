@@ -1,9 +1,9 @@
-const express = require("express");
-const requireLogin = require("../middleware/require-login");
-const router = express.Router();
+import { Router } from "express";
+import requireLogin from "../middleware/require-login.js";
+import { userProfile } from "../controllers/user-profile.js";
 
-const { userProfile } = require("../controllers/user-profile");
+const router = Router();
 
 router.get("/", requireLogin, userProfile);
 
-module.exports = router;
+export default router;

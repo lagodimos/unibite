@@ -1,6 +1,11 @@
-import { loadNavbar } from '/js/components/navbar.js';
-import { getUserProfile } from '/js/api/user-profile.js';
+import { checkIfLoggedIn } from '/js/utils/check-if-logged-in.js';
+import { navbarElement } from '/js/components/navbar.js';
+import { apiGetUserProfile } from '/js/api/user-profile.js';
 
-const userProfile = await getUserProfile();
+await checkIfLoggedIn();
 
-loadNavbar(userProfile.firstName, userProfile.roles);
+const userProfile = await apiGetUserProfile();
+
+document.body.prepend(navbarElement({
+    userProfile: userProfile
+}));

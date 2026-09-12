@@ -1,28 +1,71 @@
-const crypto = require('crypto');
-const { getDbConnection } = require('../utils/db');
+import { createHash } from 'crypto';
+import { pool } from "../db/pool.js";
 
-exports.status = async (req, res, next) => {
+export async function status(req, res, next) {
     res.status(200).json({
       loggedIn: !!req.session.user_id,
     });
 }
 
-exports.login = async (req, res, next) => {
+export async function register(req, res, next) {
+    try {
+        const {
+            firstName,
+            lastName,
+            email,
+            password
+        } = req.body;
+
+        const userResults = await pool.query(`
+            INSERT INTO user (
+                first_name,
+                last_name,
+                email,
+                password_hash
+            )
+            VALUES
+            (?, ?, ?, ?)
+            `,
+            [
+                firstName,
+                lastName,
+                email,
+                createHash('sha256')
+                    .update(password)
+                    .digest('hex')
+            ]
+        );
+
+        const newUserId = userResults.insertId;
+        const newUserPoints = 5;
+
+        const studentResults = await pool.query(`
+            INSERT INTO student (student_id, points)
+            `,
+            [newUserId, newUserPoints]
+        );
+
+        res.json({
+            message: "registrationSuccessful",
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function login(req, res, next) {
     try {
         const { email, password } = req.body;
 
-        const conn = await getDbConnection();
-        const results = await conn.query(
+        const results = await pool.query(
             'SELECT * FROM user WHERE email = ?',
             [email]
         );
-        conn.end();
 
         if (
             results.length === 0 ||
             results[0].email !== email ||
-            results[0].password_hash !== crypto
-                .createHash('sha256')
+            results[0].password_hash !== createHash('sha256')
                 .update(password)
                 .digest('hex')
         ) {
@@ -45,9 +88,9 @@ exports.login = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-};
+}
 
-exports.logout = async (req, res, next) => {
+export async function logout(req, res, next) {
   req.session.destroy((err) => {
     if (err) {
       return next(err);
@@ -59,4 +102,4 @@ exports.logout = async (req, res, next) => {
       message: "loggedOut",
     });
   });
-};
+}
