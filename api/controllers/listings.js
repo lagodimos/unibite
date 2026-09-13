@@ -52,6 +52,9 @@ export async function editListing(req, res, next) {
             WHERE listing_id = ?`,
             [req.params.listingId]
         ))[0];
+        if (!result) {
+            return res.status(404).json({ message: 'listingNotFound' });
+        }
         if (result.created_by !== req.session.user_id) {
             return res.status(403).json({ message: 'userDoesNotOwnThisListing' });
         }
@@ -113,6 +116,10 @@ export async function deleteListing(req, res, next) {
             WHERE listing_id = ?`,
             [req.params.listingId]
         );
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'listingNotFound' });
+        }
 
         if (results[0].created_by !== req.session.user_id) {
             return res.status(403).json({ message: 'userDoesNotOwnThisListing' });
