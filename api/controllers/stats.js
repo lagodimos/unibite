@@ -66,7 +66,7 @@ export async function stats(req, res, next) {
         return res.json({
             monthlySharedPortions,
             topDonor,
-            topRatedMeals
+            topRatedMeals: topRatedMeals ?? []
         })
     } catch (error) {
         next(error);
