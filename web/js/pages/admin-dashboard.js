@@ -79,7 +79,7 @@ async function loadAdminDashboard() {
                                     <tr>
                                         <td class="fw-bold text-muted">${index + 1}</td>
                                         <td class="fw-semibold text-dark">${meal.title}</td>
-                                        <td class="text-secondary small">${topDonor?.first_name} ${topDonor?.last_name}</td>
+                                        <td class="text-secondary small">${meal.user_first_name} ${meal.user_last_name}</td>
                                         <td class="text-end">
                                             <span class="badge bg-warning text-dark border border-warning-subtle">
                                                 ★ ${meal.average_rating} / 5
