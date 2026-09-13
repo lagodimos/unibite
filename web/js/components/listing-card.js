@@ -2,7 +2,7 @@ import { elementFromHtml } from '/js/utils/element-from-html.js';
 
 export function addListingCardElement({ onAddListing }) {
     const addListingCard = elementFromHtml(`
-        <div class="col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3 m-2">
+        <div class="col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3 mb-3">
             <button class="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center"
                 id="add-listing-btn"
                 >
@@ -37,7 +37,7 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
 
     const listingCard = elementFromHtml(`
         <div id="listing-card-${listing.listing_id}${idSuffix}"
-            class="${forView === 'map' ? 'col' : 'col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3'} m-2"
+            class="${forView === 'map' ? 'col' : 'col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3'} mb-3"
         >
             <div class="card h-100 shadow-sm">
 
