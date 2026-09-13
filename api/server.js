@@ -33,7 +33,10 @@ mkdirSync('/app/uploads/images', { recursive: true });
 
 app.use(cors());
 app.use(json());
-app.use(fileUpload());
+app.use(fileUpload({
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+    abortOnLimit: true
+}));
 
 app.use(
     session({
@@ -67,6 +70,14 @@ app.use("/api/stats", statsRoutes);
 // constant data endpoints (no login required)
 app.use("/api/allergens", allergensRoutes);
 app.use("/api/locations", locationsRoutes);
+
+app.use((error, req, res, next) => {
+    console.error(error);
+
+    return res.status(error.statusCode ?? 500).json({
+        message: error.clientMessage ?? "internalServerError"
+    });
+});
 
 applyRatingPenaltyContinuously();
 
