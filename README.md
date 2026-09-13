@@ -1,3 +1,8 @@
+Μέλη
+ΡΟΔΟΠΟΥΛΟΣ ΔΗΜΗΤΡΙΟΣ up1112116
+ΛΑΓΟΔΗΜΟΣ ΙΩΑΝΝΗΣ up1108381
+ΠΟΛΥΜΕΡΟΣ ΠΑΝΑΓΙΩΤΗΣ up1112103
+
 ```
 podman-compose up
 ```
@@ -44,6 +49,9 @@ mark a listing as received / not received
 
 PATCH /api/rate-listing
 rate a received listing
+
+GET /api/stats
+stats accessible only by the admin
 
 ### Endpoints that don't require login (they are just constant data)
 

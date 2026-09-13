@@ -42,11 +42,13 @@ export async function stats(req, res, next) {
             ORDER BY total_portions_donated DESC
             LIMIT 1
         `);
-        const topDonor = topDonorResult[0];
-        topDonor.total_portions_donated = Number(topDonor.total_portions_donated);
+        const topDonor = topDonorResult ? topDonorResult[0] : null;
+        if (topDonor) {
+            topDonor.total_portions_donated = Number(topDonor.total_portions_donated);
+        }
 
         /* Top Rated Listings */
-        const [topRatedMeals] = await pool.query(`
+        const topRatedMeals = await pool.query(`
             SELECT
                 fl.listing_id,
                 fl.title,

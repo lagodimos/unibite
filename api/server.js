@@ -25,6 +25,7 @@ import statsRoutes from "./routes/stats.js";
 
 import allergensRoutes from "./routes/allergens.js";
 import locationsRoutes from "./routes/locations.js";
+import { applyRatingPenaltyContinuously } from "./utils/apply-rating-penalty.js";
 
 // Create dir for user submitted images,
 // if it doesn't exist
@@ -66,6 +67,8 @@ app.use("/api/stats", statsRoutes);
 // constant data endpoints (no login required)
 app.use("/api/allergens", allergensRoutes);
 app.use("/api/locations", locationsRoutes);
+
+applyRatingPenaltyContinuously();
 
 app.listen(port, () => {
   console.log(`UniBite erver listening on port ${port}`);

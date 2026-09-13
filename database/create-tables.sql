@@ -55,6 +55,7 @@ CREATE TABLE reserves_portion (
     listing INT,
     received BOOL,
     rating INT,
+    rating_penalty_applied BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (requested_by, listing)
 );
 
