@@ -131,7 +131,8 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
                         <!-- Rate button -->
                         ${ buttonType === "request_status_rate"
                             && listing.received_by_current_user
-                            && listing.current_user_rating == null ?
+                            && listing.current_user_rating == null
+                            && enableRating == true ?
                             `<button
                                 id="rate-btn-${listing.listing_id}${idSuffix}"
                                 class="btn btn-warning w-100"
