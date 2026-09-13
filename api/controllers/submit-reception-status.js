@@ -12,6 +12,21 @@ export async function submitReceptionStatus(req, res, next) {
     const conn = await pool.getConnection();
 
     try {
+        const listingResults = await conn.query(
+            `SELECT created_by
+            FROM food_listing
+            WHERE listing_id = ?`,
+            [listingId]
+        );
+
+        if (listingResults.length === 0) {
+            return res.status(404).json({ message: "listingNotFound" });
+        }
+
+        if (listingResults[0].created_by !== req.session.user_id) {
+            return res.status(403).json({ message: "userDoesNotOwnThisListing" });
+        }
+
         await conn.beginTransaction();
 
         await conn.query(`
