@@ -22,9 +22,14 @@ services:
       - ./api:/app
       - ./data/sessions:/app/sessions
       - ./data/uploads:/app/uploads
+      - ./database/demo-photos:/app/demo-photos:ro
       - /app/node_modules
 
-    command: sh -c "npm install && npm start"
+    # copy any missing demo photos into the uploads dir,
+    # without overwriting photos submitted by users
+    command: sh -c "mkdir -p /app/uploads/images &&
+                    cp -n /app/demo-photos/*.jpg /app/uploads/images/ 2>/dev/null;
+                    npm install && npm start"
 
     # requests to the api are redirected to
     # this container by the Nginx reverse proxy
