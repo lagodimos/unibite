@@ -1,8 +1,8 @@
 export const predefinedLocations = [
     {
         name: "Φοιτητική Εστία Πανεπιστήμιο Πατρών",
-        latitude: 38.2859144,
-        longitude: 21.7901193
+        latitude: 38.2859121,
+        longitude: 21.7890531
     },
     {
         name: "Πρυτανεία",

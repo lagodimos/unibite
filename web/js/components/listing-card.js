@@ -21,17 +21,23 @@ export function addListingCardElement({ onAddListing }) {
     return addListingCard;
 }
 
-export function listingCardElement({ listing, buttonType, enableRating=false, onRequestPortion, onEdit, onDelete, onRate }) {
+export function listingCardElement({ listing, buttonType, enableRating=false, onRequestPortion, onEdit, onDelete, onRate, forView='' }) {
     const { buttonColor, buttonText, isButtonEnabled } = calcListingRequestButtonProperties(
         listing.is_active,
         listing.status_for_current_user
     );
 
+    let idSuffix = '';
+    if (forView !== '') {
+        idSuffix = `-${forView}`;
+    }
+
+
     const imageClass = !listing.is_active ? "opacity-50" : "";
 
     const listingCard = elementFromHtml(`
-        <div id="listing-card-${listing.listing_id}"
-            class="col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3 m-2"
+        <div id="listing-card-${listing.listing_id}${idSuffix}"
+            class="${forView === 'map' ? 'col' : 'col-12 col-sm-8 col-md-5 col-lg-4 col-xxl-3'} m-2"
         >
             <div class="card h-100 shadow-sm">
 
@@ -109,7 +115,7 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
                         ${ buttonType === "request_status_rate"
                             && (enableRating == false || !listing.received_by_current_user) ?
                             `<button
-                                id="listing-btn-${listing.listing_id}"
+                                id="listing-btn-${listing.listing_id}${idSuffix}"
                                 class="btn ${buttonColor} w-100"
                                 ${
                                     !isButtonEnabled
@@ -127,7 +133,7 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
                             && listing.received_by_current_user
                             && listing.current_user_rating == null ?
                             `<button
-                                id="rate-btn-${listing.listing_id}"
+                                id="rate-btn-${listing.listing_id}${idSuffix}"
                                 class="btn btn-warning w-100"
                             >
                                 Rate
@@ -138,13 +144,13 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
                         ${buttonType === "edit_and_delete" ?
                             `<div class="d-flex gap-2">
                                 <button class="btn btn-outline-primary flex-grow-1"
-                                    id="edit-btn-${listing.listing_id}"
+                                    id="edit-btn-${listing.listing_id}${idSuffix}"
                                 >
                                     Edit
                                 </button>
 
                                 <button class="btn btn-danger"
-                                    id="delete-btn-${listing.listing_id}"
+                                    id="delete-btn-${listing.listing_id}${idSuffix}"
                                 >
                                     <i class="bi bi-trash"></i>
                                 </button>
@@ -162,7 +168,7 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
     if (buttonType === "request_status_rate"
         && (enableRating == false || !listing.received_by_current_user)
     ) {
-        const requestButton = listingCard.querySelector(`#listing-btn-${listing.listing_id}`);
+        const requestButton = listingCard.querySelector(`#listing-btn-${listing.listing_id}${idSuffix}`);
         requestButton.addEventListener("click", () => {
             onRequestPortion();
         });
@@ -173,14 +179,14 @@ export function listingCardElement({ listing, buttonType, enableRating=false, on
         && listing.current_user_rating == null
         && enableRating
     ) {
-        const rateButton = listingCard.querySelector(`#rate-btn-${listing.listing_id}`);
+        const rateButton = listingCard.querySelector(`#rate-btn-${listing.listing_id}${idSuffix}`);
         rateButton.addEventListener("click", () => {
             onRate();
         });
     }
     else if (buttonType === "edit_and_delete") {
-        const editButton = listingCard.querySelector(`#edit-btn-${listing.listing_id}`);
-        const deleteButton = listingCard.querySelector(`#delete-btn-${listing.listing_id}`);
+        const editButton = listingCard.querySelector(`#edit-btn-${listing.listing_id}${idSuffix}`);
+        const deleteButton = listingCard.querySelector(`#delete-btn-${listing.listing_id}${idSuffix}`);
 
         editButton.addEventListener("click", () => {
             onEdit();
