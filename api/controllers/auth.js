@@ -8,6 +8,8 @@ export async function status(req, res, next) {
 }
 
 export async function register(req, res, next) {
+    const conn = await pool.getConnection();
+
     try {
         const {
             firstName,
@@ -16,7 +18,9 @@ export async function register(req, res, next) {
             password
         } = req.body;
 
-        const userResults = await pool.query(`
+        await conn.beginTransaction();
+
+        const userResults = await conn.query(`
             INSERT INTO user (
                 first_name,
                 last_name,
@@ -39,17 +43,23 @@ export async function register(req, res, next) {
         const newUserId = userResults.insertId;
         const newUserPoints = 5;
 
-        const studentResults = await pool.query(`
+        await conn.query(`
             INSERT INTO student (student_id, points)
+            VALUES (?, ?)
             `,
             [newUserId, newUserPoints]
         );
+
+        await conn.commit();
 
         res.json({
             message: "registrationSuccessful",
         });
     } catch (error) {
+        await conn.rollback();
         next(error);
+    } finally {
+        conn.release();
     }
 }
 
