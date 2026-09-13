@@ -21,6 +21,7 @@ import mealRequestResponseRoutes from "./routes/meal-request-response.js";
 import submitReceptionStatusRoutes from "./routes/submit-reception-status.js";
 import reservationsRoutes from "./routes/reservations.js";
 import rateListingRoutes from "./routes/rate-listing.js";
+import statsRoutes from "./routes/stats.js";
 
 import allergensRoutes from "./routes/allergens.js";
 import locationsRoutes from "./routes/locations.js";
@@ -60,6 +61,7 @@ app.use("/api/meal-request-response", mealRequestResponseRoutes);
 app.use("/api/submit-reception-status", submitReceptionStatusRoutes);
 app.use("/api/reservations", reservationsRoutes);
 app.use("/api/rate-listing", rateListingRoutes);
+app.use("/api/stats", statsRoutes);
 
 // constant data endpoints (no login required)
 app.use("/api/allergens", allergensRoutes);
