@@ -26,7 +26,7 @@ export async function newListing(req, res, next) {
         const originalPhotoFilename = photo?.name ?? null;
         let photoFilename = null;
         if (photo) {
-            photoFilename = savePhoto(photo);
+            photoFilename = await savePhoto(photo);
         }
 
         const result = await pool.query(

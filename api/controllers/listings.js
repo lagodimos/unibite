@@ -60,7 +60,7 @@ export async function editListing(req, res, next) {
         const originalPhotoFilename = photo?.name ?? null;
         let photoFilename = null;
         if (photo) {
-            photoFilename = savePhoto(photo);
+            photoFilename = await savePhoto(photo);
 
             // Delete old photo
             if (result.photo_filename) {
